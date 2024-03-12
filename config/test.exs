@@ -6,8 +6,8 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :deck_n_dice, DeckNDice.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "chandradot99",
+  password: "avia",
   hostname: "localhost",
   database: "deck_n_dice_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
