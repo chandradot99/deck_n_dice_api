@@ -1,9 +1,9 @@
-defmodule Games.Chess.StateTest do
+defmodule DeckNDice.Games.Chess.StateTest do
   use ExUnit.Case, async: true
-  alias Games.Chess.State, as: ChessState
+  alias DeckNDice.Games.Chess.State, as: ChessState
 
   setup do
-    {:ok, pid} = ChessState.init([])
+    {:ok, pid} = ChessState.start_link([])
     %{pid: pid}
   end
 
@@ -12,5 +12,9 @@ defmodule Games.Chess.StateTest do
 
     ChessState.update(pid, "current_turn", "white")
     assert ChessState.get(pid, "current_turn") == "white"
+  end
+
+  test "are temporary workers" do
+    assert Supervisor.child_spec(ChessState, []).restart == :temporary
   end
 end

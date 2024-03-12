@@ -1,14 +1,14 @@
-defmodule Games.Chess.State do
+defmodule DeckNDice.Games.Chess.State do
   @moduledoc """
   This will store the chess state of a game.
   """
 
-  use Agent
+  use Agent, restart: :temporary
 
   @doc """
   Starts a new state.
   """
-  def init(_opts) do
+  def start_link(_opts) do
     Agent.start_link(fn -> %{} end)
   end
 

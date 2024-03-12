@@ -15,7 +15,9 @@ defmodule DeckNDice.Application do
       # Start a worker by calling: DeckNDice.Worker.start_link(arg)
       # {DeckNDice.Worker, arg},
       # Start to serve requests, typically the last entry
-      DeckNDiceWeb.Endpoint
+      DeckNDiceWeb.Endpoint,
+      # Start a chess supervisor by calling: DeckNDice.Games.Chess.Supervisor([])
+      DeckNDice.Games.Chess.Supervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
