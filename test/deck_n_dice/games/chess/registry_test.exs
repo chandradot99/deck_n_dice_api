@@ -14,8 +14,8 @@ defmodule DeckNDice.Games.Chess.RegistryTest do
     ChessRegistry.create(registry, "game1")
     assert {:ok, pid} = ChessRegistry.get(registry, "game1")
 
-    ChessState.update(pid, "current_turn", "white")
-    assert ChessState.get(pid, "current_turn") == "white"
+    ChessState.update(pid, %{current_turn: "white"})
+    assert ChessState.get(pid) == %{current_turn: "white"}
   end
 
   test "removes bucket on crash", %{registry: registry} do

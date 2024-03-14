@@ -13,16 +13,16 @@ defmodule DeckNDice.Games.Chess.State do
   end
 
   @doc """
-  Gets a value from the state by `key`
+  Gets game state
   """
-  def get(pid, key) do
-    Agent.get(pid, fn state -> Map.get(state, key) end)
+  def get(pid) do
+    Agent.get(pid, & &1)
   end
 
   @doc """
-  Puts the `value` for the given `key` in the state.
+  Updates the game state
   """
-  def update(pid, key, value) do
-    Agent.update(pid, fn state -> Map.put(state, key, value) end)
+  def update(pid, state) do
+    Agent.update(pid, fn _ -> state end)
   end
 end

@@ -8,10 +8,10 @@ defmodule DeckNDice.Games.Chess.StateTest do
   end
 
   test "stores values by key", %{pid: pid} do
-    assert ChessState.get(pid, "current_turn") == nil
+    assert ChessState.get(pid) == %{}
 
-    ChessState.update(pid, "current_turn", "white")
-    assert ChessState.get(pid, "current_turn") == "white"
+    ChessState.update(pid, %{current_turn: "white"})
+    assert ChessState.get(pid) == %{current_turn: "white"}
   end
 
   test "are temporary workers" do
