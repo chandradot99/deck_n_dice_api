@@ -30,6 +30,11 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Configures the guardian
+config :deck_n_dice, DeckNDiceWeb.Auth.Guardian,
+  issuer: "deck_n_dice",
+  secret_key: "C78p0kcMkO9H3omUJSDWME28jXaYYpI2+utsUfosDr2aEWJ7rfyM9B1K35srcJXY"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
