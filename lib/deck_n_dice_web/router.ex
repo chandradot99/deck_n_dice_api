@@ -3,10 +3,12 @@ defmodule DeckNDiceWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   pipeline :auth do
     plug DeckNDiceWeb.Auth.Pipeline
+    plug DeckNDiceWeb.Auth.SetAccount
   end
 
   scope "/api", DeckNDiceWeb do

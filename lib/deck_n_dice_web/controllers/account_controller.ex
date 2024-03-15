@@ -20,6 +20,7 @@ defmodule DeckNDiceWeb.AccountController do
     case Guardian.authenticate(username, hash_password) do
       {:ok, account, token} ->
         conn
+        |> Plug.Conn.put_session(:account_id, account.id)
         |> put_status(:ok)
         |> render(:show, account: account, token: token)
 
