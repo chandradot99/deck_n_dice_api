@@ -31,6 +31,11 @@ defmodule DeckNDiceWeb.AccountController do
     end
   end
 
+  def show(conn, %{"id" => id}) do
+    account = Accounts.get_account!(id)
+    render(conn, "show.json", account: account, token: "")
+  end
+
   def delete(conn, %{"id" => id}) do
     account = Accounts.get_account!(id)
 
