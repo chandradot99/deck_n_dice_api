@@ -1,34 +1,33 @@
 defmodule DeckNDiceWeb.AccountController do
   use DeckNDiceWeb, :controller
 
-  alias DeckNDice.Accounts
-  alias DeckNDice.Accounts.Account
+  alias DeckNDiceWeb.Auth.Guardian
+  alias DeckNDice.{Accounts, Accounts.Account, Users, Users.User}
 
   action_fallback DeckNDiceWeb.FallbackController
 
-  def index(conn, _params) do
-    accounts = Accounts.list_accounts()
-    render(conn, :index, accounts: accounts)
-  end
-
-  def create(conn, %{"account" => account_params}) do
-    with {:ok, %Account{} = account} <- Accounts.create_account(account_params) do
+  def register(conn, %{"account" => account_params}) do
+    with {:ok, %Account{} = account} <- Accounts.create_account(account_params),
+         {:ok, token, _claims} <- Guardian.encode_and_sign(account),
+         {:ok, %User{} = _user} <- Users.create_user(account, account_params) do
       conn
       |> put_status(:created)
-      |> render(:show, account: account)
+      |> render(:show, account: account, token: token)
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    account = Accounts.get_account!(id)
-    render(conn, :show, account: account)
-  end
+  def sign_in(conn, %{"username" => username, "hash_password" => hash_password}) do
+    case Guardian.authenticate(username, hash_password) do
+      {:ok, account, token} ->
+        conn
+        |> put_status(:ok)
+        |> render(:show, account: account, token: token)
 
-  def update(conn, %{"id" => id, "account" => account_params}) do
-    account = Accounts.get_account!(id)
-
-    with {:ok, %Account{} = account} <- Accounts.update_account(account, account_params) do
-      render(conn, :show, account: account)
+      {:error, :unauthorized} ->
+        conn
+        |> put_status(:unauthorized)
+        |> put_view(json: DeckNDiceWeb.ErrorJSON)
+        |> render(:"401")
     end
   end
 

@@ -2,24 +2,20 @@ defmodule DeckNDiceWeb.AccountJSON do
   alias DeckNDice.Accounts.Account
 
   @doc """
-  Renders a list of accounts.
-  """
-  def index(%{accounts: accounts}) do
-    %{data: for(account <- accounts, do: data(account))}
-  end
-
-  @doc """
   Renders a single account.
   """
-  def show(%{account: account}) do
-    %{data: data(account)}
+  def show(%{account: account, token: token}) do
+    IO.inspect(account, label: "account")
+    IO.inspect(token, label: "token")
+
+    %{data: data(account, token)}
   end
 
-  defp data(%Account{} = account) do
+  defp data(%Account{} = account, token) do
     %{
       id: account.id,
       username: account.username,
-      hash_password: account.hash_password
+      token: token
     }
   end
 end
