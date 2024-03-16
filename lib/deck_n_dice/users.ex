@@ -102,4 +102,10 @@ defmodule DeckNDice.Users do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def get_user_by_account(id) do
+    User
+    |> where(account_id: ^id)
+    |> Repo.one()
+  end
 end

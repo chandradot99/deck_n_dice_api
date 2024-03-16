@@ -8,7 +8,7 @@ defmodule DeckNDiceWeb.Router do
 
   pipeline :auth do
     plug DeckNDiceWeb.Auth.Pipeline
-    plug DeckNDiceWeb.Auth.SetAccount
+    plug DeckNDiceWeb.Auth.SetLoggedInUser
   end
 
   scope "/api", DeckNDiceWeb do
@@ -21,5 +21,8 @@ defmodule DeckNDiceWeb.Router do
   scope "/api", DeckNDiceWeb do
     pipe_through [:api, :auth]
     get "/accounts/:id", AccountController, :show
+
+    resources "/games", GameController, only: [:create, :show]
+    get "/games/:game_id/join", GameController, :join_game
   end
 end
