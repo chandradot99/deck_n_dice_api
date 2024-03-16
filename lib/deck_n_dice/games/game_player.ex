@@ -1,4 +1,4 @@
-defmodule DeckNDice.GamePlayer do
+defmodule DeckNDice.Games.GamePlayer do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,8 +6,9 @@ defmodule DeckNDice.GamePlayer do
   @foreign_key_type :binary_id
   schema "game_players" do
     field :score, :integer
-    field :game_id, :binary_id
-    field :player_id, :binary_id
+    belongs_to :game, DeckNDice.Games.Game
+    belongs_to :player, DeckNDice.Users.User
+    has_one :game_team, DeckNDice.Games.GameTeam
 
     timestamps(type: :utc_datetime)
   end
@@ -15,7 +16,7 @@ defmodule DeckNDice.GamePlayer do
   @doc false
   def changeset(game_players, attrs) do
     game_players
-    |> cast(attrs, [:score])
-    |> validate_required([:score])
+    |> cast(attrs, [:score, :game_id, :player_id])
+    |> validate_required([:game_id, :player_id])
   end
 end

@@ -6,11 +6,12 @@ defmodule DeckNDice.Users.User do
   @foreign_key_type :binary_id
   schema "users" do
     field :full_name, :string
-    field :gender, :string
+    field :gender, Ecto.Enum, values: [:male, :female, :other]
     field :biography, :string
     field :email, :string
     field :dob, :date
     belongs_to :account, DeckNDice.Accounts.Account
+    has_many :games, DeckNDice.Games.Game, foreign_key: :created_by
 
     timestamps(type: :utc_datetime)
   end

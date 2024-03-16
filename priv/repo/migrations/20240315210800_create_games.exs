@@ -8,6 +8,7 @@ defmodule DeckNDice.Repo.Migrations.CreateGames do
       add :status, :string
       add :min_players, :integer, default: 1
       add :max_players, :integer, default: 20
+      add :total_players, :integer
       add :is_team_game, :boolean, default: false
       add :started_at, :utc_datetime
       add :finished_at, :utc_datetime

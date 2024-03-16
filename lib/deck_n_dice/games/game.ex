@@ -1,4 +1,4 @@
-defmodule DeckNDice.Game do
+defmodule DeckNDice.Games.Game do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -10,9 +10,13 @@ defmodule DeckNDice.Game do
     field :started_at, :utc_datetime
     field :min_players, :integer
     field :max_players, :integer
+    field :total_players, :integer
     field :finished_at, :utc_datetime
-    field :created_by, :binary_id
     field :game_data, :map
+    belongs_to :user, DeckNDice.Users.User, foreign_key: :created_by
+    has_many :game_players, DeckNDice.Games.GamePlayer
+    has_many :game_teams, DeckNDice.Games.GameTeam
+    has_one :game_result, DeckNDice.Games.GameTeam
 
     timestamps(type: :utc_datetime)
   end
@@ -20,7 +24,17 @@ defmodule DeckNDice.Game do
   @doc false
   def changeset(game, attrs) do
     game
-    |> cast(attrs, [:type, :status, :min_players, :max_players, :started_at, :finished_at])
-    |> validate_required([:type, :status, :min_players, :max_players, :started_at, :finished_at])
+    |> cast(attrs, [
+      :type,
+      :status,
+      :min_players,
+      :max_players,
+      :total_players,
+      :started_at,
+      :finished_at,
+      :game_data,
+      :user_id
+    ])
+    |> validate_required([:type, :status, :user_id])
   end
 end
