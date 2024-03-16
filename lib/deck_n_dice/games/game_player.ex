@@ -5,7 +5,7 @@ defmodule DeckNDice.Games.GamePlayer do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "game_players" do
-    field :score, :integer
+    field :score, :float
     belongs_to :game, DeckNDice.Games.Game
     belongs_to :player, DeckNDice.Users.User
     has_one :game_team, DeckNDice.Games.GameTeam

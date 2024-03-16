@@ -10,7 +10,6 @@ defmodule DeckNDice.Games.Game do
     field :started_at, :utc_datetime
     field :min_players, :integer
     field :max_players, :integer
-    field :total_players, :integer
     field :finished_at, :utc_datetime
     field :game_data, :map
     belongs_to :user, DeckNDice.Users.User, foreign_key: :created_by
@@ -29,12 +28,11 @@ defmodule DeckNDice.Games.Game do
       :status,
       :min_players,
       :max_players,
-      :total_players,
       :started_at,
       :finished_at,
       :game_data,
-      :user_id
+      :created_by
     ])
-    |> validate_required([:type, :status, :user_id])
+    |> validate_required([:type, :status, :created_by])
   end
 end

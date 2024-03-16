@@ -6,6 +6,7 @@ defmodule DeckNDice.Games.GameTeam do
   @foreign_key_type :binary_id
   schema "game_teams" do
     field :name, :string
+    field :team_score, :float
     belongs_to :game, DeckNDice.Games.Game
     belongs_to :game_player, DeckNDice.Games.GamePlayer
 
