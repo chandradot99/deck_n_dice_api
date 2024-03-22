@@ -35,6 +35,11 @@ config :deck_n_dice, DeckNDiceWeb.Auth.Guardian,
   issuer: "deck_n_dice",
   secret_key: "C78p0kcMkO9H3omUJSDWME28jXaYYpI2+utsUfosDr2aEWJ7rfyM9B1K35srcJXY"
 
+config :cors_plug,
+  origin: ["http://localhost:3000"],
+  headers: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

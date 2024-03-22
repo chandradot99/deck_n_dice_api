@@ -8,7 +8,7 @@ defmodule DeckNDice.Games.GameTeam do
     field :name, :string
     field :team_score, :float
     belongs_to :game, DeckNDice.Games.Game
-    belongs_to :game_player, DeckNDice.Games.GamePlayer
+    has_many :game_players, DeckNDice.Games.GamePlayer, foreign_key: :team_id
 
     timestamps(type: :utc_datetime)
   end
@@ -16,7 +16,7 @@ defmodule DeckNDice.Games.GameTeam do
   @doc false
   def changeset(game_team, attrs) do
     game_team
-    |> cast(attrs, [:name, :game_id, :game_player_id])
-    |> validate_required([:name, :game_id, :game_player_id])
+    |> cast(attrs, [:name, :game_id])
+    |> validate_required([:name, :game_id])
   end
 end

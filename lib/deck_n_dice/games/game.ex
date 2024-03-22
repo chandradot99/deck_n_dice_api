@@ -16,6 +16,7 @@ defmodule DeckNDice.Games.Game do
     has_many :game_players, DeckNDice.Games.GamePlayer
     has_many :game_teams, DeckNDice.Games.GameTeam
     has_one :game_result, DeckNDice.Games.GameTeam
+    has_one :game_time_control_setting, DeckNDice.Games.GameTimeControlSetting
 
     timestamps(type: :utc_datetime)
   end
@@ -34,5 +35,6 @@ defmodule DeckNDice.Games.Game do
       :created_by
     ])
     |> validate_required([:type, :status, :created_by])
+    |> cast_assoc(:game_time_control_setting)
   end
 end

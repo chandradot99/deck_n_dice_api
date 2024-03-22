@@ -19,8 +19,12 @@ defmodule DeckNDiceWeb.AccountController do
   def sign_in(conn, %{"username" => username, "hash_password" => hash_password}) do
     case Guardian.authenticate(username, hash_password) do
       {:ok, account, token} ->
+        conn = conn |> Plug.Conn.put_session(:account_id, account.id)
+
+        IO.inspect(get_session(conn, :account_id), label: "account id")
+
         conn
-        |> Plug.Conn.put_session(:account_id, account.id)
+        # |> Plug.Conn.put_session(:account_id, account.id)
         |> put_status(:ok)
         |> render(:show, account: account, token: token)
 
@@ -30,6 +34,21 @@ defmodule DeckNDiceWeb.AccountController do
         |> put_view(json: DeckNDiceWeb.ErrorJSON)
         |> render(:"401")
     end
+  end
+
+  def sign_out(conn, %{}) do
+    account =
+      conn
+      |> get_session(:account_id)
+      |> Accounts.get_account!()
+
+    token = Guardian.Plug.current_token(conn)
+    Guardian.revoke(token)
+
+    conn
+    |> Plug.Conn.clear_session()
+    |> put_status(:ok)
+    |> render(:show, account: account, token: nil)
   end
 
   def show(conn, %{"id" => id}) do

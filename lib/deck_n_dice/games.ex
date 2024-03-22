@@ -9,7 +9,22 @@ defmodule DeckNDice.Games do
   @doc """
   Gets a single Game
   """
-  def get_game!(id), do: Repo.get!(Game, id)
+  def get_game(id) do
+    Repo.get(Game, id)
+
+    query =
+      from game in Game,
+        inner_join: time_setting in assoc(game, :game_time_control_setting),
+        left_join: game_players in assoc(game, :game_players),
+        left_join: player in assoc(game_players, :player),
+        where: game.id == ^id,
+        preload: [
+          game_time_control_setting: time_setting,
+          game_players: {game_players, player: player}
+        ]
+
+    Repo.one(query)
+  end
 
   @doc """
   Creates a Game
