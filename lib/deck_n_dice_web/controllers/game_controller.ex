@@ -6,7 +6,10 @@ defmodule DeckNDiceWeb.GameController do
   action_fallback DeckNDiceWeb.FallbackController
 
   def create(conn, %{"game" => %{"playAs" => playAs} = game_params}) do
-    case Games.create_game(game_params) do
+    user = conn.assigns[:logged_in_user]
+    params = Map.put(game_params, "created_by", user.id)
+
+    case Games.create_game(params) do
       {:ok, game} ->
         Games.add_game_player(game, %{
           game_id: game.id,
@@ -21,10 +24,6 @@ defmodule DeckNDiceWeb.GameController do
   end
 
   def show(conn, %{"id" => id}) do
-    test = Games.get_game(id)
-
-    IO.inspect(test, label: "Game")
-
     case Games.get_game(id) do
       %Game{} = game ->
         render(conn, :show, game: game)

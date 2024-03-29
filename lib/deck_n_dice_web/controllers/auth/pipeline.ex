@@ -4,7 +4,6 @@ defmodule DeckNDiceWeb.Auth.Pipeline do
     module: DeckNDiceWeb.Auth.Guardian,
     error_handler: DeckNDiceWeb.Auth.GuardianErrorHandler
 
-  plug Guardian.Plug.VerifySession
   plug Guardian.Plug.VerifyHeader
   plug Guardian.Plug.EnsureAuthenticated
   plug Guardian.Plug.LoadResource

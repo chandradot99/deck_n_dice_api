@@ -17,10 +17,11 @@ defmodule DeckNDice.Games do
         inner_join: time_setting in assoc(game, :game_time_control_setting),
         left_join: game_players in assoc(game, :game_players),
         left_join: player in assoc(game_players, :player),
+        left_join: account in assoc(player, :account),
         where: game.id == ^id,
         preload: [
           game_time_control_setting: time_setting,
-          game_players: {game_players, player: player}
+          game_players: {game_players, player: {player, account: account}}
         ]
 
     Repo.one(query)

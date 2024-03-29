@@ -15,7 +15,8 @@ defmodule DeckNDiceWeb.GameJSON do
       identifier: game_player.player_identifier,
       name: game_player.player.full_name,
       email: game_player.player.email,
-      gender: game_player.player.gender
+      gender: game_player.player.gender,
+      username: game_player.player.account.username
     }
   end
 
@@ -39,8 +40,6 @@ defmodule DeckNDiceWeb.GameJSON do
   end
 
   defp game_data(%Game{} = game) do
-    IO.inspect(game, label: "Game data")
-
     %{
       id: game.id,
       status: game.status,

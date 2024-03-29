@@ -1,21 +1,17 @@
 defmodule DeckNDiceWeb.Auth.SetLoggedInUser do
-  alias DeckNDice.Users
+  alias DeckNDice.Repo
   import Plug.Conn
+  alias DeckNDiceWeb.Auth.Guardian
 
   def init(_options) do
   end
 
   def call(conn, _options) do
-    if conn.assigns[:logged_in_user] do
+    account =
       conn
-    else
-      account_id = get_session(conn, :account_id)
-      user = Users.get_user_by_account(account_id)
+      |> Guardian.Plug.current_resource()
+      |> Repo.preload([:user])
 
-      cond do
-        account_id && user -> assign(conn, :logged_in_user, user)
-        true -> assign(conn, :logged_in_user, nil)
-      end
-    end
+    assign(conn, :logged_in_user, account.user)
   end
 end

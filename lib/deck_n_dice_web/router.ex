@@ -16,6 +16,7 @@ defmodule DeckNDiceWeb.Router do
     get "/", DefaultController, :index
     post "/accounts/register", AccountController, :register
     post "/accounts/login", AccountController, :sign_in
+    post "/accounts/verify_token", AccountController, :verify_token
   end
 
   scope "/api", DeckNDiceWeb do

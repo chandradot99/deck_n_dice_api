@@ -31,6 +31,10 @@ defmodule DeckNDiceWeb.Auth.Guardian do
     end
   end
 
+  def verify_token(token) do
+    decode_and_verify(token)
+  end
+
   defp validate_password(password, hash_password) do
     Bcrypt.verify_pass(password, hash_password)
   end
